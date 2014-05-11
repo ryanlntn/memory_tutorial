@@ -15,11 +15,23 @@ class Tile < Joybox::Core::Sprite
   end
 
   def flip
-    setDisplayFrame SpriteFrameCache.frames["#{@type}.png"]
+    if is_showing?("hidden.png")
+      show "#{@type}.png"
+    else
+      show "hidden.png"
+    end
+  end
+
+  def show(frame_name)
+    setDisplayFrame SpriteFrameCache.frames[frame_name]
 
     run_action Sequence.with(actions: [
       Scale.to(scale: 1.5, duration: 0.2),
       Scale.to(scale: 1.0, duration: 0.2)
     ])
+  end
+
+  def is_showing?(frame_name)
+    isFrameDisplayed SpriteFrameCache.frames[frame_name]
   end
 end
