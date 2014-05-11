@@ -24,14 +24,23 @@ class GridLayer < Joybox::Core::Layer
         @active_tiles << tile
 
         if @active_tiles.size == 2
-          if @active_tiles.map(&:type).uniq.size == 1
-            puts "Freeze"
-          else
-            puts "Flip back"
-          end
-          @active_tiles = []
+          self.runAction Sequence.with(actions: [
+            Delay.time(by: 1),
+            Callback.with(&handle_active_tiles)
+          ])
         end
       end
+    end
+  end
+
+  def handle_active_tiles
+    Proc.new do
+      if @active_tiles.map { |t| t.type }.uniq.size == 1
+        @active_tiles.each(&:freeze)
+      else
+        @active_tiles.each(&:flip)
+      end
+      @active_tiles = []
     end
   end
 

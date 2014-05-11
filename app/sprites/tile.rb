@@ -12,8 +12,14 @@ class Tile < Joybox::Core::Sprite
   end
 
   def touched?(touch_location)
+    return if @frozen
+
     rect = CGRect.new(boundingBox.origin, boundingBox.size)
     CGRectContainsPoint(rect, touch_location)
+  end
+
+  def freeze
+    @frozen = true
   end
 
   def flip
