@@ -15,7 +15,7 @@ class GridLayer < Joybox::Core::Layer
     on_touches_ended do |touches, event|
       touch = touches.any_object
       if tile = tile_to_flip(touch.location)
-        puts 'flipping!'
+        tile.flip
       end
     end
   end
