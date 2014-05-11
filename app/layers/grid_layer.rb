@@ -25,9 +25,11 @@ class GridLayer < Joybox::Core::Layer
   end
 
   def load_tiles
+    types = 8.times.map { Tile::TYPES.sample } * 2
+
     @tiles = 4.times.map do |row|
       4.times.map do |column|
-        Tile.new frame_name: 'hidden.png', position: [
+        Tile.new type: types.shift, position: [
           column * TILE_SIZE + LEFT_GUTTER,
           row * TILE_SIZE + BOTTOM_GUTTER
         ]
