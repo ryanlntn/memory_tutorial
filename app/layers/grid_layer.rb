@@ -14,14 +14,20 @@ class GridLayer < Joybox::Core::Layer
   def handle_touches
     on_touches_ended do |touches, event|
       touch = touches.any_object
-      puts [touch.location.x, touch.location.y].inspect
+      if tile = tile_to_flip(touch.location)
+        puts 'flipping!'
+      end
     end
+  end
+
+  def tile_to_flip(touch_location)
+    @tiles.detect { |t| t.touched?(touch_location) }
   end
 
   def load_tiles
     @tiles = 4.times.map do |row|
       4.times.map do |column|
-        Sprite.new frame_name: 'hidden.png', position: [
+        Tile.new frame_name: 'hidden.png', position: [
           column * TILE_SIZE + LEFT_GUTTER,
           row * TILE_SIZE + BOTTOM_GUTTER
         ]
