@@ -12,10 +12,25 @@ class GridLayer < Joybox::Core::Layer
   end
 
   def handle_touches
+    @active_tiles = []
+
     on_touches_ended do |touches, event|
+      break if @active_tiles.size == 2
+
       touch = touches.any_object
       if tile = tile_to_flip(touch.location)
         tile.flip
+
+        @active_tiles << tile
+
+        if @active_tiles.size == 2
+          if @active_tiles.map(&:type).uniq.size == 1
+            puts "Freeze"
+          else
+            puts "Flip back"
+          end
+          @active_tiles = []
+        end
       end
     end
   end
