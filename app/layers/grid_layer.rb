@@ -37,11 +37,18 @@ class GridLayer < Joybox::Core::Layer
     Proc.new do
       if @active_tiles.map { |t| t.type }.uniq.size == 1
         @active_tiles.each(&:freeze)
+        if all_matched?
+          Joybox.director.replace_scene WinLayer.scene
+        end
       else
         @active_tiles.each(&:flip)
       end
       @active_tiles = []
     end
+  end
+
+  def all_matched?
+    @tiles.all?(&:frozen)
   end
 
   def tile_to_flip(touch_location)

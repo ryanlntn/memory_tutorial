@@ -1,5 +1,6 @@
 class Tile < Joybox::Core::Sprite
   attr_reader :type
+  attr_reader :frozen
 
   TYPES = %w(
     boy gem_blue gem_green gem_orange girl_cat girl_horn
